@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId}/{document=**} {
+      allow read, write: if true;
+    }
+    match /moneydb_transactions/{transactionId} {
+      allow read, write: if true;
+    }
+    match /moneydb_budgets/{budgetId} {
+      allow read, write: if true;
+    }
+  }
+}
+

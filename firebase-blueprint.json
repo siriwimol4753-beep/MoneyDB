@@ -1,0 +1,26 @@
+{
+  "entities": {
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Financial income or expense transaction record",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner user ID or guest identifier" },
+        "type": { "type": "string", "enum": ["income", "expense"], "description": "Transaction category type" },
+        "amount": { "type": "number", "description": "Transaction amount in Thai Baht" },
+        "category": { "type": "string", "description": "Category name of the income or expense" },
+        "note": { "type": "string", "description": "Optional notes or remarks" },
+        "date": { "type": "string", "description": "Transaction date in YYYY-MM-DD format" },
+        "createdAt": { "type": "string", "description": "Creation timestamp" },
+        "updatedAt": { "type": "string", "description": "Last updated timestamp" }
+      },
+      "required": ["userId", "type", "amount", "category", "date"]
+    }
+  },
+  "firestore": {
+    "/moneydb_transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Stores user income and expense records"
+    }
+  }
+}
