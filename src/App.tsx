@@ -126,9 +126,14 @@ export default function App() {
     } catch (err: any) {
       console.error('Sign-in error:', err);
       if (err.code === 'auth/popup-blocked') {
-        setAuthError('เบราว์เซอร์บล็อกป๊อปอัป กรุณาอนุญาตป๊อปอัปเพื่อเข้าสู่ระบบด้วย Google');
+        setAuthError('เบราว์เซอร์บล็อกป๊อปอัป กรุณาอนุญาตป๊อปอัป (Allow Popups) เพื่อเข้าสู่ระบบด้วย Google');
       } else if (err.code === 'auth/popup-closed-by-user') {
         // User closed popup, do nothing
+      } else if (err.code === 'auth/unauthorized-domain') {
+        const domain = typeof window !== 'undefined' ? window.location.hostname : '';
+        setAuthError(
+          `โดเมน "${domain}" ยังไม่ได้รับอนุญาตใน Firebase Authentication กรุณาเข้าไปที่ Firebase Console > Authentication > Settings > Authorized domains แล้วกด "Add domain" ใส่ "${domain}"`
+        );
       } else {
         setAuthError(err.message || 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ Google');
       }
@@ -280,14 +285,28 @@ export default function App() {
         
         {/* Auth Error Banner */}
         {authError && (
-          <div className="flex items-center justify-between p-4 bg-rose-50 border border-rose-200 rounded-2xl text-xs text-rose-800">
-            <div className="flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
-              <span>{authError}</span>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-rose-50 border border-rose-200 rounded-2xl text-xs text-rose-800">
+            <div className="flex items-start gap-2.5">
+              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5 sm:mt-0" />
+              <div>
+                <span>{authError}</span>
+                {authError.includes('Firebase Console') && (
+                  <div className="mt-1.5">
+                    <a
+                      href="https://console.firebase.google.com/project/premium-sound-mghtt/authentication/settings"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 font-semibold text-rose-700 underline hover:text-rose-900"
+                    >
+                      คลิกเพื่อไปที่หน้าตั้งค่า Authorized domains ใน Firebase Console &rarr;
+                    </a>
+                  </div>
+                )}
+              </div>
             </div>
             <button
               onClick={() => setAuthError(null)}
-              className="text-rose-600 hover:text-rose-800 font-semibold underline ml-4"
+              className="text-rose-600 hover:text-rose-800 font-semibold underline self-end sm:self-center shrink-0 cursor-pointer"
             >
               ปิด
             </button>
