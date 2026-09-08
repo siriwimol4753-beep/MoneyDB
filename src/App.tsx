@@ -30,6 +30,7 @@ import { AnalyticsCharts } from './components/AnalyticsCharts';
 import { TransactionList } from './components/TransactionList';
 import { TransactionModal } from './components/TransactionModal';
 import { AuthBanner } from './components/AuthBanner';
+import { AuthModal } from './components/AuthModal';
 import { BudgetInsights } from './components/BudgetInsights';
 import { Plus, AlertCircle, CheckCircle2 } from 'lucide-react';
 
@@ -51,6 +52,7 @@ export default function App() {
 
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [modalInitialType, setModalInitialType] = useState<TransactionType>('expense');
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
 
@@ -117,7 +119,13 @@ export default function App() {
     return () => unsubscribe();
   }, [activeUserId]);
 
-  // Handle Google / Gmail Sign In
+  // Open Auth Modal (Email & Password + Google)
+  const handleOpenAuthModal = () => {
+    setAuthError(null);
+    setIsAuthModalOpen(true);
+  };
+
+  // Handle Google / Gmail Sign In directly if needed
   const handleSignIn = async () => {
     try {
       setAuthError(null);
@@ -274,7 +282,7 @@ export default function App() {
         onNextMonth={handleNextMonth}
         onCurrentMonth={handleCurrentMonth}
         onOpenAddModal={() => handleOpenAddModal('expense')}
-        onSignIn={handleSignIn}
+        onSignIn={handleOpenAuthModal}
         onSignOut={handleSignOut}
         onSeedData={handleSeedData}
         hasTransactions={allTransactions.length > 0}
@@ -293,12 +301,12 @@ export default function App() {
                 {authError.includes('Firebase Console') && (
                   <div className="mt-1.5">
                     <a
-                      href="https://console.firebase.google.com/project/premium-sound-mghtt/authentication/settings"
+                      href="https://console.firebase.google.com/project/moneydb-ff416/authentication/settings"
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex items-center gap-1 font-semibold text-rose-700 underline hover:text-rose-900"
                     >
-                      คลิกเพื่อไปที่หน้าตั้งค่า Authorized domains ใน Firebase Console &rarr;
+                      คลิกเพื่อไปที่หน้าตั้งค่า Authorized domains ใน Firebase Console (moneydb-ff416) &rarr;
                     </a>
                   </div>
                 )}
@@ -313,9 +321,9 @@ export default function App() {
           </div>
         )}
 
-        {/* Not logged in: Show Google Sign-in Welcome Banner */}
+        {/* Not logged in: Show Sign-in Welcome Banner */}
         {!user && !isAuthLoading && (
-          <AuthBanner onSignIn={handleSignIn} isLoading={isAuthLoading} />
+          <AuthBanner onSignIn={handleOpenAuthModal} isLoading={isAuthLoading} />
         )}
 
         {/* Monthly Summary Cards (Income, Expense, Net/Savings) */}
@@ -386,6 +394,15 @@ export default function App() {
         initialType={modalInitialType}
         currentYear={selectedYear}
         currentMonth={selectedMonth}
+      />
+
+      {/* Auth Modal for Email & Google Sign In */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onSuccess={() => {
+          showToast('เข้าสู่ระบบสำเร็จ ข้อมูลซิงก์กับ Firebase เรียบร้อย');
+        }}
       />
 
       {/* Floating Action Button on Mobile */}

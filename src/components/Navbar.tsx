@@ -148,7 +148,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     )}
                     <div className="hidden lg:block text-left text-xs leading-tight">
                       <p className="font-semibold text-slate-800 max-w-[130px] truncate">
-                        {user.displayName || 'ผู้ใช้งาน Google'}
+                        {user.displayName || (user.email ? user.email.split('@')[0] : 'ผู้ใช้งาน')}
                       </p>
                       <p className="text-slate-500 max-w-[130px] truncate">
                         {user.email}
@@ -161,7 +161,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   id="signout-btn"
                   onClick={onSignOut}
                   title="ออกจากระบบ"
-                  className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+                  className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
@@ -170,15 +170,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 id="signin-btn"
                 onClick={onSignIn}
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 hover:border-slate-400 shadow-xs transition-all"
+                className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 hover:border-slate-400 shadow-xs transition-all cursor-pointer"
               >
-                <img 
-                  src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" 
-                  alt="Google" 
-                  className="w-4 h-4"
-                />
-                <span className="hidden sm:inline">เข้าสู่ระบบด้วย Gmail</span>
-                <span className="sm:hidden">เข้าสู่ระบบ</span>
+                <LogIn className="w-4 h-4 text-emerald-600" />
+                <span>เข้าสู่ระบบ</span>
               </button>
             )}
 

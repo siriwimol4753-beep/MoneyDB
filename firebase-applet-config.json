@@ -1,12 +1,12 @@
 {
-  "projectId": "premium-sound-mghtt",
-  "appId": "1:747639036761:web:c6571e9e4eb6bebd360a48",
-  "apiKey": "AIzaSyC4xM8y8lSOGW1AMzbMfkpKPexnbgyAxM0",
-  "authDomain": "premium-sound-mghtt.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-bd1d2869-412d-45d1-a008-ddb1b46a085f",
-  "storageBucket": "premium-sound-mghtt.firebasestorage.app",
-  "messagingSenderId": "747639036761",
+  "projectId": "moneydb-ff416",
+  "appId": "1:510110733819:web:94ded38f72c3c2aad8675e",
+  "apiKey": "AIzaSyDYXmgnIR9NzcpeQ2Mv3D41FsBDzBsNxm4",
+  "authDomain": "moneydb-ff416.firebaseapp.com",
+  "firestoreDatabaseId": "(default)",
+  "storageBucket": "moneydb-ff416.firebasestorage.app",
+  "messagingSenderId": "510110733819",
   "measurementId": "",
-  "oAuthClientId": "747639036761-h61qccuucd1mtbkpe133sdvkscbh2m26.apps.googleusercontent.com",
+  "oAuthClientId": "",
   "recaptchaSiteKey": ""
 }
